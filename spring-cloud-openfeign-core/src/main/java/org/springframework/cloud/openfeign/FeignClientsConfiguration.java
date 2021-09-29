@@ -98,6 +98,7 @@ public class FeignClientsConfiguration {
 	@Autowired(required = false)
 	private FeignEncoderProperties encoderProperties;
 
+	// 适配 Spring
 	@Bean
 	@ConditionalOnMissingBean
 	public Decoder feignDecoder(ObjectProvider<HttpMessageConverterCustomizer> customizers) {

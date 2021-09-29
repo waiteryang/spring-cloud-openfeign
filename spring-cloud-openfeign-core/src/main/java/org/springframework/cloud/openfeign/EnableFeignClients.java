@@ -48,6 +48,7 @@ import org.springframework.context.annotation.Import;
 public @interface EnableFeignClients {
 
 	/**
+	 *
 	 * Alias for the {@link #basePackages()} attribute. Allows for more concise annotation
 	 * declarations e.g.: {@code @ComponentScan("org.my.pkg")} instead of
 	 * {@code @ComponentScan(basePackages="org.my.pkg")}.
@@ -56,6 +57,7 @@ public @interface EnableFeignClients {
 	String[] value() default {};
 
 	/**
+	 * 包的扫描路径
 	 * Base packages to scan for annotated components.
 	 * <p>
 	 * {@link #value()} is an alias for (and mutually exclusive with) this attribute.
@@ -77,6 +79,7 @@ public @interface EnableFeignClients {
 	Class<?>[] basePackageClasses() default {};
 
 	/**
+	 * 默认配置
 	 * A custom <code>@Configuration</code> for all feign clients. Can contain override
 	 * <code>@Bean</code> definition for the pieces that make up the client, for instance
 	 * {@link feign.codec.Decoder}, {@link feign.codec.Encoder}, {@link feign.Contract}.
