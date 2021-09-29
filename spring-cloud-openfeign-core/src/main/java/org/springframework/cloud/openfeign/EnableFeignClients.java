@@ -34,6 +34,12 @@ import org.springframework.context.annotation.Import;
  * @author Spencer Gibb
  * @author Dave Syer
  * @since 1.0
+ *
+ * @EnableFeignClients 自动扫描
+ * @EnableFeignClients 注入FeignClientsRegistrar，FeignClientsRegistrar开启自动扫描，将包下@FeignClient 标注的接口包装成
+ * FeignClientFactoryBean 对象，最终通过Fegin.Builder生成该接口的代理对象。而Fegin.Builder的默认配置是FeignClientsConfiguration，
+ * 是在FeignClientsConfiguration 自动注入的。
+ *
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

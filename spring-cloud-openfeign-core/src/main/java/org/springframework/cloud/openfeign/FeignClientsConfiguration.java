@@ -72,6 +72,7 @@ import static feign.form.ContentType.MULTIPART;
  * @author Olga Maciaszek-Sharma
  * @author Hyeonmin Park
  * @author Yanming Zhou
+ * proxyBeanMethods = false 是lite模式，lite模式下，直接返回新实例对象
  */
 @Configuration(proxyBeanMethods = false)
 public class FeignClientsConfiguration {
