@@ -397,15 +397,20 @@ public class FeignClientFactoryBean
 	}
 
 	/**
+	 *
+	 *
+	 *
 	 * @param <T> the target type of the Feign client
 	 * @return a {@link Feign} client created with the specified data and the context
 	 * information
 	 */
 	<T> T getTarget() {
+		// 1 、 FeginAutoConfiguration 自动装配 FeginContext
 		FeignContext context = beanFactory != null ? beanFactory.getBean(FeignContext.class)
 				: applicationContext.getBean(FeignContext.class);
 		Feign.Builder builder = feign(context);
 
+		// 2. url不存在，则一定是负载均衡
 		if (!StringUtils.hasText(url)) {
 
 			if (LOG.isInfoEnabled()) {
@@ -438,7 +443,9 @@ public class FeignClientFactoryBean
 			}
 			builder.client(client);
 		}
+		// 4 FeginAutoConfiguration 自动状态 Targeter
 		Targeter targeter = get(context, Targeter.class);
+		// 调用 fegin.target 生成动态代理
 		return (T) targeter.target(this, builder, context, new HardCodedTarget<>(type, name, url));
 	}
 

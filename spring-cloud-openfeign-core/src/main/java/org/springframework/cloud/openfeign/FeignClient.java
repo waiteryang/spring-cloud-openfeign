@@ -34,6 +34,7 @@ import org.springframework.core.annotation.AliasFor;
  * @author Spencer Gibb
  * @author Venil Noronha
  * @author Olga Maciaszek-Sharma
+ *
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
@@ -99,6 +100,7 @@ public @interface FeignClient {
 	boolean decode404() default false;
 
 	/**
+	 * 属性配置，可以进行重写
 	 * A custom configuration class for the feign client. Can contain override
 	 * <code>@Bean</code> definition for the pieces that make up the client, for instance
 	 * {@link feign.codec.Decoder}, {@link feign.codec.Encoder}, {@link feign.Contract}.

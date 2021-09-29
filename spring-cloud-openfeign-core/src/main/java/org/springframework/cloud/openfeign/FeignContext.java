@@ -31,6 +31,10 @@ import org.springframework.lang.Nullable;
  * @author Dave Syer
  * @author Matt King
  * @author Jasbir Singh
+ *
+ * 1、FeginClient 是所有@FeginClient的上下文环境，管理了Fegin.Builder的所有配置。根据@FeginClient(同一个服务)的contextId 区分不同的上下文环境，
+ * 每个环境都是一个子Spring 容器，从而直接隔离不同@FeginClient 的目的。
+ * @FeginClient 的默认配置是FeginClientConfiguration，但同时也可以通过@EnableFeginClients 和@FeginClient 的configuration属性进行修改
  */
 public class FeignContext extends NamedContextFactory<FeignClientSpecification> {
 
