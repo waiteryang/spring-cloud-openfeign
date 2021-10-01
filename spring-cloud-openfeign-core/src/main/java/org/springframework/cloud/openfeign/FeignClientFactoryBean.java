@@ -149,6 +149,8 @@ public class FeignClientFactoryBean
 	}
 
 	protected void configureFeign(FeignContext context, Feign.Builder builder) {
+
+		//feign.client 配置的相关属性
 		FeignClientProperties properties = beanFactory != null ? beanFactory.getBean(FeignClientProperties.class)
 				: applicationContext.getBean(FeignClientProperties.class);
 
@@ -177,6 +179,7 @@ public class FeignClientFactoryBean
 		if (level != null) {
 			builder.logLevel(level);
 		}
+		//重试器
 		Retryer retryer = getInheritedAwareOptional(context, Retryer.class);
 		if (retryer != null) {
 			builder.retryer(retryer);

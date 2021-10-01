@@ -81,6 +81,7 @@ import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResour
  * @author Nguyen Ky Thanh
  * @author Andrii Bohutskyi
  * @author Kwangyong Kim
+ * 配置Fegin上下文(FeignContext)、配置Targeter、配置Client(仅仅组件)
  */
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(Feign.class)
