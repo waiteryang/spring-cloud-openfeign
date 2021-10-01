@@ -98,6 +98,9 @@ public class FeignAutoConfiguration {
 		return HasFeatures.namedFeature("Feign", Feign.class);
 	}
 
+	/**
+	 * FeignContext 继承自NamedContextFactory，可以用此对象根据Bean名字或者对象获到实例
+	 */
 	@Bean
 	public FeignContext feignContext() {
 		FeignContext context = new FeignContext();
@@ -105,6 +108,9 @@ public class FeignAutoConfiguration {
 		return context;
 	}
 
+	/**
+	 * 默认引入的包依赖已带此类，所以默认使用Targeter是这个带熔断的HystrixTargeter
+	 */
 	@Configuration(proxyBeanMethods = false)
 	@ConditionalOnClass({ Module.class, Page.class, Sort.class })
 	@ConditionalOnProperty(value = "feign.autoconfiguration.jackson.enabled", havingValue = "true")

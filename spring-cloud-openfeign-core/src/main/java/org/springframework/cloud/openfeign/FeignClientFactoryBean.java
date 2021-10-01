@@ -122,6 +122,7 @@ public class FeignClientFactoryBean
 		Logger logger = loggerFactory.create(type);
 
 		// @formatter:off
+		//FeignContext继承来自BeanFactory，所以可以用于获取Bean
 		Feign.Builder builder = get(context, Feign.Builder.class)
 				// required values
 				.logger(logger)
@@ -408,9 +409,10 @@ public class FeignClientFactoryBean
 		// 1 、 FeginAutoConfiguration 自动装配 FeginContext
 		FeignContext context = beanFactory != null ? beanFactory.getBean(FeignContext.class)
 				: applicationContext.getBean(FeignContext.class);
+		//从Spring Context中获取到Feign的Builder
 		Feign.Builder builder = feign(context);
 
-		// 2. url不存在，则一定是负载均衡
+		// 2. url不存在，则一定是负载均衡 、@FeginClient注解没有配置url属性
 		if (!StringUtils.hasText(url)) {
 
 			if (LOG.isInfoEnabled()) {
@@ -425,10 +427,13 @@ public class FeignClientFactoryBean
 			url += cleanPath();
 			return (T) loadBalance(builder, context, new HardCodedTarget<>(type, name, url));
 		}
+		//处理@FeginClient URL属性(主机名)存在情况
 		if (StringUtils.hasText(url) && !url.startsWith("http")) {
 			url = "http://" + url;
 		}
 		String url = this.url + cleanPath();
+		//获取到调用客户端: Spring封装了基于Ribbon的客户端(LoadBalancerFeignClient)
+		//1、Feign自己封装的Request(基于java.net原生),2、OkHttpClient(新一代/HTTP2) ，3、ApacheHttpClient(常规)
 		Client client = getOptional(context, Client.class);
 		if (client != null) {
 			if (client instanceof FeignBlockingLoadBalancerClient) {
@@ -441,11 +446,14 @@ public class FeignClientFactoryBean
 				// but Spring Cloud LoadBalancer is on the classpath, so unwrap
 				client = ((RetryableFeignBlockingLoadBalancerClient) client).getDelegate();
 			}
+			// 设置调用客户端
 			builder.client(client);
 		}
 		// 4 FeginAutoConfiguration 自动状态 Targeter
+		// DefaultTargeter或者HystrixTargeter，其中HystrixTargeter带熔断和降级功能
+		// 主要用户在Builder中配置调用失败回调方法
 		Targeter targeter = get(context, Targeter.class);
-		// 调用 fegin.target 生成动态代理
+		// 调用 fegin.target 生成动态代理|Bean创建实际目标封装，最终生成InvocationHandler
 		return (T) targeter.target(this, builder, context, new HardCodedTarget<>(type, name, url));
 	}
 
