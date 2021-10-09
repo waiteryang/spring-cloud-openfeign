@@ -50,6 +50,7 @@ import java.util.concurrent.TimeUnit;
  * @author Jonatan Ivanov
  * @author Sam Kruglov
  * @author Jasbir Singh
+ * FeignClientFactoryBean implements FactoryBean 通过FactoryBean将Feign接口交给Spring容器管理
  */
 public class FeignClientFactoryBean
 	implements FactoryBean<Object>, InitializingBean, ApplicationContextAware, BeanFactoryAware {
@@ -109,6 +110,7 @@ public class FeignClientFactoryBean
 
 		// @formatter:off
 		//FeignContext继承来自BeanFactory，所以可以用于获取Bean
+		//生成builder对象，用来生成feign
 		Feign.Builder builder = get(context, Feign.Builder.class)
 			// required values
 			.logger(logger)
@@ -116,7 +118,7 @@ public class FeignClientFactoryBean
 			.decoder(get(context, Decoder.class))
 			.contract(get(context, Contract.class));
 		// @formatter:on
-
+		// 配置Feign
 		configureFeign(context, builder);
 		applyBuildCustomizers(context, builder);
 
@@ -392,7 +394,7 @@ public class FeignClientFactoryBean
 	 * information
 	 */
 	<T> T getTarget() {
-		// 1 、 FeginAutoConfiguration 自动装配 FeginContext
+		// 1 、 FeginAutoConfiguration 自动装配 FeginContext、实例化Feign上下文对象FeignContext
 		FeignContext context = beanFactory != null ? beanFactory.getBean(FeignContext.class)
 			: applicationContext.getBean(FeignContext.class);
 		//从Spring Context中获取到Feign的Builder

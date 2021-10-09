@@ -80,6 +80,7 @@ import java.util.concurrent.TimeUnit;
  * @author Andrii Bohutskyi
  * @author Kwangyong Kim
  * 配置Fegin上下文(FeignContext)、配置Targeter、配置Client(仅仅组件)
+ * 相关配置bean注册到ioc容器中
  */
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(Feign.class)
