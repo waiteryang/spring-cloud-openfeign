@@ -98,6 +98,9 @@ class FeignClientsRegistrar implements ImportBeanDefinitionRegistrar, ResourceLo
 		return name;
 	}
 
+	/**
+	 * 获取url
+	 */
 	static String getUrl(String url) {
 		if (StringUtils.hasText(url) && !(url.startsWith("#{") && url.contains("}"))) {
 			if (!url.contains("://")) {
